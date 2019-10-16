@@ -180,7 +180,7 @@ if __name__ == '__main__':
         correct_sentences.append(correct_sentence)
             
     # read ground truth to evaluate    
-    f = open('output.txt','r')
+    f = open('groundtruth.txt','r')
     gt_contents = f.read()
     f.close()
     gt_sentences = gt_contents.split('\n')
