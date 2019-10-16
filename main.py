@@ -18,7 +18,7 @@ problem_word_path = 'model.txt'
 NGRAM_API_URI = "https://{0}.linggle.com/query/"
 EXP_API_URI = "https://{0}.linggle.com/example/"
 
-# 設定最大可分析長度
+# set length upperbound
 max_len = 5
 
 punc = [i for i in string.punctuation]
@@ -45,7 +45,7 @@ class Linggle:
 		return []
 
 
-# 開linggle api
+# open linggle api
 ling = Linggle()
 
 
@@ -57,7 +57,7 @@ def P(ngram, logN=12., MINCOUNT=40.):
 	"Probability of ngram based Web 1T using Linggle API"
 #	ngram, leng = ' '.join(ngram), float(len(ngram))
 	leng = float(len(ngram.split(' ')))
-    # 查詢次數
+    # query number
 	linggle_ngram = ling.search(ngram)
 	linggle_ngram = linggle_ngram[0][1] if len(linggle_ngram)>0 else 0
 	return (log(linggle_ngram,10)-12)/pow(leng,1./2.5) if linggle_ngram>0 else (log10(MINCOUNT)-12) # original: pow(leng, 1./2.5)
@@ -65,7 +65,7 @@ def P(ngram, logN=12., MINCOUNT=40.):
 
 
 ##############################################
-# 編輯(Insert, Delete, Replace)一步之後的結果
+# Result after first edition
 ##############################################
 def edits1(ngram, model):
     "TODO: handle possible Insert, Delete, Replace edits using data from model"
@@ -97,7 +97,7 @@ def edits1(ngram, model):
     return set(deletes + replaces + inserts)
 
 ##########################
-# 編輯兩步之後的結果
+# Result after second edition
 ##########################
 def edits2(ngram, model): 
 	"All changes that are two edits away from ngram"
@@ -106,7 +106,7 @@ def edits2(ngram, model):
 
 
 #############################
-# edit 2次之後的 candidates
+# candidates
 #############################
 def candidates(ngram, model): 
 	"TODO: Generate possible correction"
@@ -114,7 +114,7 @@ def candidates(ngram, model):
 
 
 ###############################
-# 找最好的編輯
+# select best correction from candidates
 ###############################
 def correction(ngram, model): 
     "TODO: Return most probable grammatical error correction for ngram."
@@ -125,7 +125,7 @@ def correction(ngram, model):
 
 
 ################################
-# 找出problem word有沒有在model裡
+# check if problem word is in model
 ################################
 def channel_model(problem_word, model):
 	return model[problem_word] if(problem_word in model) else []
@@ -133,7 +133,7 @@ def channel_model(problem_word, model):
 
 
 ##############################
-# 把model json檔獨進來
+# load model json
 ##############################
 def read_problem_word(path):
 	with open(path, 'r') as f:
@@ -152,7 +152,7 @@ def splitter(n, s):
 # MAIN
 #################
 if __name__ == '__main__':
-    # 讀進problem_word
+    # read problem_word
     model = read_problem_word(problem_word_path)
 	
     "TODO: Read testing data, write correction to output file"
